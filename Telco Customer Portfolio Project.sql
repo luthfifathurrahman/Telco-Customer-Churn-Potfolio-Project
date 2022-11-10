@@ -356,6 +356,10 @@ WHERE PaymentMethod is null
 SELECT MonthlyCharges
 FROM TelcoCustomer..Telco
 
+-- Changing The Data Type on MonthlyCharges Column
+ALTER TABLE TelcoCustomer..Telco
+ALTER COLUMN MonthlyCharges float
+
 -- Checking Missing Value on MonthlyCharges Column
 SELECT *
 FROM TelcoCustomer..Telco
@@ -367,6 +371,10 @@ WHERE MonthlyCharges is null
 -- Checking The TotalCharges Column
 SELECT TotalCharges
 FROM TelcoCustomer..Telco
+
+-- Changing The Data Type on TotalCharges Column
+ALTER TABLE TelcoCustomer..Telco
+ALTER COLUMN TotalCharges float
 
 -- Checking Missing Value on TotalCharges Column
 SELECT *
@@ -390,3 +398,337 @@ ORDER BY Churn
 SELECT *
 FROM TelcoCustomer..Telco
 WHERE Churn is null
+
+------------------------------------------------------------------------------------------------------
+------------------------------------------ DATA EXPLORATION ------------------------------------------
+------------------------------------------------------------------------------------------------------
+SELECT *
+FROM TelcoCustomer..Telco
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Number of Customer Who Churned
+SELECT Churn, COUNT(Churn) AS Amount_Customer
+FROM TelcoCustomer..Telco
+GROUP BY Churn
+ORDER BY Churn
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Number of Customers Based on The Gender
+------------------------------------------------------------------------------------------------------
+SELECT gender, COUNT(gender) AS Amount_Customer
+FROM TelcoCustomer..Telco
+GROUP BY gender
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Number of Customers Based on The Senior Citizen Status
+------------------------------------------------------------------------------------------------------
+SELECT SeniorCitizen, COUNT(SeniorCitizen) AS Amount_Customer
+FROM TelcoCustomer..Telco
+GROUP BY SeniorCitizen
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Number of Customers Based on The Partner Status
+------------------------------------------------------------------------------------------------------
+SELECT Partner, COUNT(Partner) AS Amount_Customer
+FROM TelcoCustomer..Telco
+GROUP BY Partner
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Number of Customers Based on The Dependents Status
+------------------------------------------------------------------------------------------------------
+SELECT Dependents, COUNT(Dependents) AS Amount_Customer
+FROM TelcoCustomer..Telco
+GROUP BY Dependents
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using All The Services of The Company
+------------------------------------------------------------------------------------------------------
+SELECT *
+FROM TelcoCustomer..Telco
+WHERE PhoneService like 'Yes'
+AND MultipleLines like 'Yes'
+AND InternetService like 'Yes'
+AND OnlineSecurity like 'Yes'
+AND OnlineBackup like 'Yes'
+AND DeviceProtection like 'Yes'
+AND TechSupport like 'Yes'
+AND StreamingTV like 'Yes'
+AND StreamingMovies like 'Yes'
+GROUP BY customerID, gender, SeniorCitizen, Partner, Dependents, tenure, PhoneService, MultipleLines, InternetService, OnlineSecurity, OnlineBackup, DeviceProtection, TechSupport, StreamingTV, StreamingMovies, Contract, PaperlessBilling, PaymentMethod, MonthlyCharges, TotalCharges, Churn
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using Phone Service
+------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS #TelcoPhoneService
+CREATE TABLE #TelcoPhoneService
+(
+PhoneService nvarchar(255),
+Amount_Cust_Using_Phone_Service float
+)
+
+INSERT INTO #TelcoPhoneService
+SELECT PhoneService, COUNT(PhoneService)
+FROM TelcoCustomer..Telco
+GROUP BY PhoneService
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using Phone Service Who Had Churned
+------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS #TelcoChurnPhoneService
+CREATE TABLE #TelcoChurnPhoneService
+(
+PhoneService nvarchar(255),
+Churn nvarchar(255),
+Amount_Cust_Churn_Using_Phone_Service float
+)
+
+INSERT INTO #TelcoChurnPhoneService
+SELECT PhoneService, Churn, COUNT(Churn) AS Amount
+FROM TelcoCustomer..Telco
+GROUP BY PhoneService, Churn
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Percentage of Customers Who Are Using Phone Dervice Who Had Churned
+------------------------------------------------------------------------------------------------------
+SELECT *
+FROM #TelcoPhoneService
+ORDER BY PhoneService
+
+SELECT *
+FROM #TelcoChurnPhoneService
+ORDER BY PhoneService, Churn
+
+SELECT a.PhoneService, b.Churn, a.Amount_Cust_Using_Phone_Service, b.Amount_Cust_Churn_Using_Phone_Service, ROUND((b.Amount_Cust_Churn_Using_Phone_Service/a.Amount_Cust_Using_Phone_Service)*100, 2) AS Percentage_of_Churn
+FROM #TelcoPhoneService a
+JOIN #TelcoChurnPhoneService b
+	ON a.PhoneService = b.PhoneService
+GROUP BY a.PhoneService, b.Churn, a.Amount_Cust_Using_Phone_Service, b.Amount_Cust_Churn_Using_Phone_Service
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using Phone Service And Multiple Lines Service
+------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS #TelcoPhoneServiceMultipleLines
+CREATE TABLE #TelcoPhoneServiceMultipleLines
+(
+PhoneService nvarchar(255),
+MultipleLines nvarchar(255),
+Amount_Cust_Using_Phone_Service float
+)
+
+INSERT INTO #TelcoPhoneServiceMultipleLines
+SELECT PhoneService, MultipleLines, COUNT(PhoneService) AS Amount
+FROM TelcoCustomer..Telco
+GROUP BY PhoneService, MultipleLines
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using Phone Service And Multiple Lines Service Who Had Churned
+------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS #TelcoChurnPhoneServiceMultipleLines
+CREATE TABLE #TelcoChurnPhoneServiceMultipleLines
+(
+PhoneService nvarchar(255),
+MultipleLines nvarchar(255),
+Churn nvarchar(255),
+Amount_Cust_Churn_Using_Phone_Service float
+)
+
+INSERT INTO #TelcoChurnPhoneServiceMultipleLines
+SELECT PhoneService, MultipleLines, Churn, COUNT(Churn) AS Amount
+FROM TelcoCustomer..Telco
+GROUP BY PhoneService, MultipleLines, Churn
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Percentage of Customers Who Are Using Phone Service And Multiple Lines Service Who Had Churned
+------------------------------------------------------------------------------------------------------
+SELECT *
+FROM #TelcoPhoneServiceMultipleLines
+ORDER BY PhoneService, MultipleLines
+
+SELECT *
+FROM #TelcoChurnPhoneServiceMultipleLines
+ORDER BY PhoneService, MultipleLines, Churn
+
+SELECT a.PhoneService, a.MultipleLines, b.Churn, a.Amount_Cust_Using_Phone_Service, b.Amount_Cust_Churn_Using_Phone_Service, ROUND((b.Amount_Cust_Churn_Using_Phone_Service/a.Amount_Cust_Using_Phone_Service)*100, 2) AS Percentage_of_Churn
+FROM #TelcoPhoneServiceMultipleLines a
+JOIN #TelcoChurnPhoneServiceMultipleLines b
+	ON a.PhoneService = b.PhoneService
+	AND a.MultipleLines = b.MultipleLines
+GROUP BY a.PhoneService, a.MultipleLines, b.Churn, a.Amount_Cust_Using_Phone_Service, b.Amount_Cust_Churn_Using_Phone_Service
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using Internet Service
+------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS #TelcoInternetService
+CREATE TABLE #TelcoInternetService
+(
+InternetService nvarchar(255),
+Amount_Cust_Using_Internet_Service float
+)
+
+INSERT INTO #TelcoInternetService
+SELECT InternetService, COUNT(InternetService)
+FROM TelcoCustomer..Telco
+GROUP BY InternetService
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using Internet Service Who Had Churned
+------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS #TelcoChurnInternetService
+CREATE TABLE #TelcoChurnInternetService
+(
+InternetService nvarchar(255),
+Churn nvarchar(255),
+Amount_Cust_Churn_Using_Internet_Service float
+)
+
+INSERT INTO #TelcoChurnInternetService
+SELECT InternetService, Churn, COUNT(Churn) AS Amount
+FROM TelcoCustomer..Telco
+GROUP BY InternetService, Churn
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Percentage of Customers Who Are Using Internet Service Who Had Churned
+------------------------------------------------------------------------------------------------------
+SELECT *
+FROM #TelcoInternetService
+ORDER BY InternetService
+
+SELECT *
+FROM #TelcoChurnInternetService
+ORDER BY InternetService, Churn
+
+SELECT a.InternetService, b.Churn, a.Amount_Cust_Using_Internet_Service, b.Amount_Cust_Churn_Using_Internet_Service, ROUND((b.Amount_Cust_Churn_Using_Internet_Service/a.Amount_Cust_Using_Internet_Service)*100, 2) AS Percentage_of_Churn
+FROM #TelcoInternetService a
+JOIN #TelcoChurnInternetService b
+	ON a.InternetService = b.InternetService
+GROUP BY a.InternetService, b.Churn, a.Amount_Cust_Using_Internet_Service, b.Amount_Cust_Churn_Using_Internet_Service
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using Phone Service And Internet Service
+------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS #TelcoPhoneServiceInternetService
+CREATE TABLE #TelcoPhoneServiceInternetService
+(
+PhoneService nvarchar(255),
+InternetService nvarchar(255),
+Amount_Cust_Using_Phone_Internet_Service float
+)
+
+INSERT INTO #TelcoPhoneServiceInternetService
+SELECT PhoneService, InternetService, COUNT(PhoneService) AS Amount
+FROM TelcoCustomer..Telco
+GROUP BY PhoneService, InternetService
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using Phone Service And Internet Service Who Had Churned
+------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS #TelcoChurnPhoneServiceInternetService
+CREATE TABLE #TelcoChurnPhoneServiceInternetService
+(
+PhoneService nvarchar(255),
+InternetService nvarchar(255),
+Churn nvarchar(255),
+Amount_Cust_Churn_Using_Phone_Internet_Service float
+)
+
+INSERT INTO #TelcoChurnPhoneServiceInternetService
+SELECT PhoneService, InternetService, Churn, COUNT(Churn) AS Amount
+FROM TelcoCustomer..Telco
+GROUP BY PhoneService, InternetService, Churn
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Percentage of Customers Who Are Using Phone Service And Internet Service Who Had Churned
+------------------------------------------------------------------------------------------------------
+SELECT *
+FROM #TelcoPhoneServiceInternetService
+ORDER BY PhoneService, InternetService
+
+SELECT *
+FROM #TelcoChurnPhoneServiceInternetService
+ORDER BY PhoneService, InternetService, Churn
+
+SELECT a.PhoneService, a.InternetService, b.Churn, a.Amount_Cust_Using_Phone_Internet_Service, b.Amount_Cust_Churn_Using_Phone_Internet_Service, ROUND((b.Amount_Cust_Churn_Using_Phone_Internet_Service/a.Amount_Cust_Using_Phone_Internet_Service)*100, 2) AS Percentage_of_Churn
+FROM #TelcoChurnPhoneServiceInternetService b
+JOIN #TelcoPhoneServiceInternetService a
+	ON a.PhoneService = b.PhoneService
+	AND a.InternetService = b.InternetService
+GROUP BY a.PhoneService, a.InternetService, b.Churn, a.Amount_Cust_Using_Phone_Internet_Service, b.Amount_Cust_Churn_Using_Phone_Internet_Service
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using Internet Service And Tech Support Service
+------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS #TelcoInternetServiceTechSupport
+CREATE TABLE #TelcoInternetServiceTechSupport
+(
+InternetService nvarchar(255),
+TechSupport nvarchar(255),
+Amount_Cust_Using_Internet_Service_Tech_Sup float
+)
+
+INSERT INTO #TelcoInternetServiceTechSupport
+SELECT InternetService, TechSupport, COUNT(TechSupport) AS Amount
+FROM TelcoCustomer..Telco
+GROUP BY InternetService, TechSupport
+
+------------------------------------------------------------------------------------------------------
+-- Checking How Many Customers Are Using Internet Service And Tech Support Service Who Had Churned
+------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS #TelcoChurnInternetServiceTechSupport
+CREATE TABLE #TelcoChurnInternetServiceTechSupport
+(
+InternetService nvarchar(255),
+TechSupport nvarchar(255),
+Churn nvarchar(255),
+Amount_Cust_Churn_Using_Internet_Service_Tech_Sup float
+)
+
+INSERT INTO #TelcoChurnInternetServiceTechSupport
+SELECT InternetService, TechSupport, Churn, COUNT(Churn) AS Amount
+FROM TelcoCustomer..Telco
+GROUP BY InternetService, TechSupport, Churn
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Percentage of Customers Who Are Using Internet Service And Tech Support Service Who Had Churned
+------------------------------------------------------------------------------------------------------
+SELECT *
+FROM #TelcoInternetServiceTechSupport
+ORDER BY InternetService, TechSupport
+
+SELECT *
+FROM #TelcoChurnInternetServiceTechSupport
+ORDER BY InternetService, TechSupport, Churn
+
+SELECT a.InternetService, a.TechSupport, b.Churn, a.Amount_Cust_Using_Internet_Service_Tech_Sup, b.Amount_Cust_Churn_Using_Internet_Service_Tech_Sup, ROUND((b.Amount_Cust_Churn_Using_Internet_Service_Tech_Sup/a.Amount_Cust_Using_Internet_Service_Tech_Sup)*100, 2) AS Percentage_of_Churn
+FROM #TelcoInternetServiceTechSupport a
+JOIN #TelcoChurnInternetServiceTechSupport b
+	ON a.InternetService = b.InternetService
+	AND a.TechSupport = b.TechSupport
+GROUP BY a.InternetService, a.TechSupport, b.Churn, a.Amount_Cust_Using_Internet_Service_Tech_Sup, b.Amount_Cust_Churn_Using_Internet_Service_Tech_Sup
+
+------------------------------------------------------------------------------------------------------
+-- Checking The SUM of Total Charges Based on The Senior Citizen Status
+------------------------------------------------------------------------------------------------------
+SELECT SeniorCitizen, ROUND(SUM(TotalCharges), 2) AS Sum_of_Total_Charges
+FROM TelcoCustomer..Telco
+GROUP BY SeniorCitizen
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Average of Total Charges Based on The Senior Citizen Status
+------------------------------------------------------------------------------------------------------
+SELECT SeniorCitizen, ROUND(AVG(TotalCharges), 2) AS Average_of_Total_Charges
+FROM TelcoCustomer..Telco
+GROUP BY SeniorCitizen
+
+------------------------------------------------------------------------------------------------------
+-- Checking The SUM of Total Charges Based on The Gender
+------------------------------------------------------------------------------------------------------
+SELECT gender, ROUND(SUM(TotalCharges), 2) AS Sum_of_Total_Charges
+FROM TelcoCustomer..Telco
+GROUP BY gender
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Average of Total Charges Based on The Gender
+------------------------------------------------------------------------------------------------------
+SELECT gender, ROUND(AVG(TotalCharges), 2) AS Average_of_Total_Charges
+FROM TelcoCustomer..Telco
+GROUP BY gender
