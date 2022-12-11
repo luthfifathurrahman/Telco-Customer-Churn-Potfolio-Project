@@ -1,0 +1,128 @@
+# Telco Customer Churn Potfolio Project
+
+<p align="justify">Churn is when customers stop using the services of a company. Thus, churn prediction identifies customers who are likely to cancel their contracts. If the company can predict that, they can offer discounts on these services to keep the customers. To predict churn, I will use machine learning. For creating a machine learning model, I will use data about customers who churned from Kaggle. Based on that, I will make a model for identifying present customers who are about to churn.</p>
+
+## What I Do in This Project
+
+- Analyzing Using Microsoft SQL.
+	- Data Profiling.
+		- Looking All The Data from The Table.
+		- Counting How Many Rows in The Table.
+		- Showing The Data Type For Every Column in The Table.
+	- Data Cleansing.
+		- CovidDeaths Table.
+			- customerID Column.
+				- Checking The customerID Column.
+				- Checking Missing Value on customerID Column.
+			- gender Column.
+				- Checking The gender Column.
+				- Checking The Unique Value on The gender Column.
+				- Checking Missing Value on gender Column.
+			- SeniorCitizen Column.
+				- Checking The SeniorCitizen Column.
+				- Checking The Unique Value on The SeniorCitizen Column.
+				- Checking Missing Value on SeniorCitizen Column.
+				- Changing The Value on The SeniorCitizen.
+			- Partner Column.
+				- Checking The Partner Column.
+				- Checking The Unique Value on The Partner Column.
+				- Checking Missing Value on Partner Column.
+			- Dependents Column.
+				- Checking The Dependents Column.
+				- Checking The Unique Value on The Dependents Column.
+				- Checking Missing Value on Dependents Column.
+			- tenure Column.
+				- Checking The tenure Column.
+				- Checking The Unique Value on The tenure Column.
+				- Checking Missing Value on tenure Column.
+			- PhoneService Column.
+				- Checking The PhoneService Column.
+				- Checking The Unique Value on The PhoneService Column.
+				- Checking Missing Value on PhoneService Column.
+			- MultipleLines Column.
+				- Checking The MultipleLines Column.
+				- Checking The Unique Value on The MultipleLines Column.
+				- Checking Missing Value on MultipleLines Column.
+			- InternetService Column.
+				- Checking The InternetService Column.
+				- Checking The Unique Value on The InternetService Column.
+				- Checking Missing Value on InternetService Column.
+			- OnlineSecurity Column.
+				- Checking The OnlineSecurity Column.
+				- Checking The Unique Value on The OnlineSecurity Column.
+				- Checking Missing Value on OnlineSecurity Column.
+			- OnlineBackup Column.
+				- Checking The OnlineBackup Column.
+				- Checking The Unique Value on The OnlineBackup Column.
+				- Checking Missing Value on OnlineBackup Column.
+			- DeviceProtection Column.
+				- Checking The DeviceProtection Column.
+				- Checking The Unique Value on The DeviceProtection Column.
+				- Checking Missing Value on DeviceProtection Column.
+			- TechSupport Column.
+				- Checking The TechSupport Column.
+				- Checking The Unique Value on The TechSupport Column.
+				- Checking Missing Value on TechSupport Column.
+			- StreamingTV Column.
+				- Checking The StreamingTV Column.
+				- Checking The Unique Value on The StreamingTV Column.
+				- Checking Missing Value on StreamingTV Column.
+			- StreamingMovies Column.
+				- Checking The StreamingMovies Column.
+				- Checking The Unique Value on The StreamingMovies Column.
+				- Checking Missing Value on StreamingMovies Column.
+			- Contract Column.
+				- Checking The Contract Column.
+				- Checking The Unique Value on The Contract Column.
+				- Checking Missing Value on Contract Column.
+			- PaperlessBilling Column.
+				- Checking The PaperlessBilling Column.
+				- Checking The Unique Value on The PaperlessBilling Column.
+				- Checking Missing Value on PaperlessBilling Column.
+			- PaymentMethod Column.
+				- Checking The PaymentMethod Column.
+				- Checking The Unique Value on The PaymentMethod Column.
+				- Checking Missing Value on PaymentMethod Column.
+			- MonthlyCharges Column.
+				- Checking The MonthlyCharges Column.
+				- Checking The Unique Value on The MonthlyCharges Column.
+				- Checking Missing Value on MonthlyCharges Column.
+			- TotalCharges Column.
+				- Checking The TotalCharges Column.
+				- Checking The Unique Value on The TotalCharges Column.
+				- Checking Missing Value on TotalCharges Column.
+			- Churn Column.
+				- Checking The Churn Column.
+				- Checking The Unique Value on The Churn Column.
+				- Checking Missing Value on gender Churn.
+
+			
+	- Data Exploration
+		- Checking The Number of Customer Who Churned.
+		- Checking The Number of Customers Based on The Gender.
+		- Checking The Number of Customers Based on The Senior Citizen Status.
+		- Checking The Number of Customers Based on The Partner Status.
+		- Checking The Number of Customers Based on The Dependents Status.
+		- Checking How Many Customers Are Using All The Services of The Company.
+		- Checking How Many Customers Are Using Phone Service.
+		- Checking How Many Customers Are Using Phone Service Who Had Churned.
+		- Checking The Percentage of Customers Who Are Using Phone Dervice Who Had Churned.
+		- Checking How Many Customers Are Using Phone Service And Multiple Lines Service.
+		- Checking How Many Customers Are Using Phone Service And Multiple Lines Service Who Had Churned.
+		- Checking The Percentage of Customers Who Are Using Phone Service And Multiple Lines Service Who Had Churned.
+		- Checking How Many Customers Are Using Internet Service.
+		- Checking How Many Customers Are Using Internet Service Who Had Churned.
+		- Checking The Percentage of Customers Who Are Using Internet Service Who Had Churned.
+		- Checking How Many Customers Are Using Phone Service And Internet Service.
+		- Checking How Many Customers Are Using Phone Service And Internet Service Who Had Churned.
+		- Checking The Percentage of Customers Who Are Using Phone Service And Internet Service Who Had Churned.
+		- Checking How Many Customers Are Using Internet Service And Tech Support Service.
+		- Checking How Many Customers Are Using Internet Service And Tech Support Service Who Had Churned.
+		- Checking The Percentage of Customers Who Are Using Internet Service And Tech Support Service Who Had Churned.
+		- Checking The SUM of Total Charges Based on The Senior Citizen Status.
+		- Checking The Average of Total Charges Based on The Senior Citizen Status.
+		- Checking The SUM of Total Charges Based on The Gender.
+		- Checking The Average of Total Charges Based on The Gender.
+		
+## Data Source
+Source: https://ourworldindata.org/
