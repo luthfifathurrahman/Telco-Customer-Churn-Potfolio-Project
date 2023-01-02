@@ -705,3 +705,18 @@ GROUP BY SeniorCitizen
 SELECT gender, ROUND(AVG(TotalCharges), 2) AS Average_of_Total_Charges
 FROM TelcoCustomer..Telco
 GROUP BY gender
+
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Average of Monthly Charges Based on The Senior Citizen Status
+------------------------------------------------------------------------------------------------------
+SELECT SeniorCitizen, ROUND(AVG(MonthlyCharges), 2) AS Average_of_Monthly_Charges
+FROM TelcoCustomer..Telco
+GROUP BY SeniorCitizen
+
+------------------------------------------------------------------------------------------------------
+-- Checking The Average of Monthly Charges Based on The Gender
+------------------------------------------------------------------------------------------------------
+SELECT gender, ROUND(AVG(MonthlyCharges), 2) AS Average_of_Monthly_Charges
+FROM TelcoCustomer..Telco
+GROUP BY gender
