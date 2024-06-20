@@ -1,333 +1,131 @@
-# Telco Customer Churn Potfolio Project
+# Telco Customer Churn
+## Business Understanding
+1. How many customers have churned?
+2. How many customers of each gender have churned?
+3. How many customers have churned based on senior citizen status?
+4. How many customers have churned based on partnership status?
+5. How many customers have churned based on dependent status?
+6. How many customers have churned based on tenure?
+7. How many customers have churned based on phone service status?
+8. How many customers have churned based on multiple lines status?
+9. How many customers have churned based on internet service status?
+10. How many customers have churned based on online security status?
+11. How many customers have churned based on online backup status?
+12. How many customers have churned based on device protection status?
+13. How many customers have churned based on tech support status?
+14. How many customers have churned based on streaming TV status?
+15. How many customers have churned based on streaming movies status?
+16. How many customers have churned based on contract type?
+17. How many customers have churned based on paperless billing status?
+18. How many customers have churned based on payment method?
 
-<p align="justify">Churn is when customers stop using the services of a company. Thus, churn prediction identifies customers who are likely to cancel their contracts. If the company can predict that, they can offer discounts on these services to keep the customers. To predict churn, I will use machine learning. For creating a machine learning model, I will use data about customers who churned from Kaggle. Based on that, I will make a model for identifying present customers who are about to churn.</p>
+## Data Understanding
+- Data Source: https://www.kaggle.com/blastchar/telco-customer-churn
+- There are 1 dataset, which is:
+  - Telco Customer data: 21 columns and 7043 rows
+    - customerID: Customer ID
+    - gender: Whether the customer is a male or a female
+    - SeniorCitizen: Whether the customer is a senior citizen or not (1, 0)
+    - Partner: Whether the customer has a partner or not (Yes, No)
+    - Dependents: Whether the customer has dependents or not (Yes, No)
+    - tenure: Number of months the customer has stayed with the company
+    - PhoneService: Whether the customer has a phone service or not (Yes, No)
+    - MultipleLines: Whether the customer has multiple lines or not (Yes, No, No phone service)
+    - InternetService: Customer’s internet service provider (DSL, Fiber optic, No)
+    - OnlineSecurity: Whether the customer has online security or not (Yes, No, No internet service)
+    - OnlineBackup: Whether the customer has online backup or not (Yes, No, No internet service)
+    - DeviceProtection: Whether the customer has device protection or not (Yes, No, No internet service)
+    - TechSupport: Whether the customer has tech support or not (Yes, No, No internet service)
+    - StreamingTV: Whether the customer has streaming TV or not (Yes, No, No internet service)
+    - StreamingMovies: Whether the customer has streaming movies or not (Yes, No, No internet service)
+    - Contract: The contract term of the customer (Month-to-month, One year, Two year)
+    - PaperlessBilling: Whether the customer has paperless billing or not (Yes, No)
+    - PaymentMethod: The customer’s payment method (Electronic check, Mailed check, Bank transfer (automatic), Credit card
+    - MonthlyCharges: The amount charged to the customer monthly
+    - TotalCharges: The total amount charged to the customer
+    - Churn: Whether the customer churned or not (Yes or No)
+      
+## Data Preparation
+- Python Programming Language
+- Packages: pandas, numpy, matplotlib, seaborn, regex, datetime
 
-## What I Do in This Project
+## Data Cleansing
+### Telco Customer Data:
+  - Renaming The Column's Name
+  - Changing The Value in The SeniorCitizen Column
+  - Changing The Value in The Partner Column
+  - Changing The Value in The Dependents Column
+  - Changing The Value in The Tenure Column
+  - Changing The Value in The PhoneService Column
+  - Changing The Value in The MultipleLines Column
+  - Changing The Value in The InternetService Column
+  - Changing The Value in The OnlineSecurity Column
+  - Changing The Value in The OnlineBackup Column
+  - Changing The Value in The DeviceProtection Column
+  - Changing The Value in The TechSupport Column
+  - Changing The Value in The StreamingTV Column
+  - Changing The Value in The StreamingMovies Column
+  - Changing The Value in The Contract Column
+  - Changing The Value in The PaperlessBilling Column
+  - Changing The Value in The PaymentMethod Column
+  - Checking The Description of The MonthlyCharges Column
+  - Creating A New Column Called TotalCharge using MonthlyCharges times Tenure
+  - Removing Data That Has 0 Value in The TotalCharge Column
+  - Changing The Value in The MultipleLines Column
+  - Removing Unused Column (CustomerID, Tenure, TotalCharges)
 
-- Analyzing Using Microsoft SQL.
-	- Data Profiling.
-		- Looking All The Data from The Table.
-		- Counting How Many Rows in The Table.
-		- Showing The Data Type For Every Column in The Table.
-	- Data Cleansing.
-		- CovidDeaths Table.
-			- customerID Column.
-				- Checking The customerID Column.
-				- Checking Missing Value on customerID Column.
-			- gender Column.
-				- Checking The gender Column.
-				- Checking Missing Value on gender Column.
-			- SeniorCitizen Column.
-				- Checking The SeniorCitizen Column.
-				- Checking Missing Value on SeniorCitizen Column.
-				- Changing The Value on The SeniorCitizen.
-			- Partner Column.
-				- Checking The Partner Column.
-				- Checking Missing Value on Partner Column.
-			- Dependents Column.
-				- Checking The Dependents Column.
-				- Checking Missing Value on Dependents Column.
-			- tenure Column.
-				- Checking The tenure Column.
-				- Changing The Value on The tenure.
-				- Checking Missing Value on tenure Column.
-			- PhoneService Column.
-				- Checking The PhoneService Column.
-				- Checking Missing Value on PhoneService Column.
-			- MultipleLines Column.
-				- Checking The MultipleLines Column.
-				- Checking Missing Value on MultipleLines Column.
-			- InternetService Column.
-				- Checking The InternetService Column.
-				- Checking Missing Value on InternetService Column.
-			- OnlineSecurity Column.
-				- Checking The OnlineSecurity Column.
-				- Checking Missing Value on OnlineSecurity Column.
-			- OnlineBackup Column.
-				- Checking The OnlineBackup Column.
-				- Checking Missing Value on OnlineBackup Column.
-			- DeviceProtection Column.
-				- Checking The DeviceProtection Column.
-				- Checking Missing Value on DeviceProtection Column.
-			- TechSupport Column.
-				- Checking The TechSupport Column.
-				- Checking Missing Value on TechSupport Column.
-			- StreamingTV Column.
-				- Checking The StreamingTV Column.
-				- Checking Missing Value on StreamingTV Column.
-			- StreamingMovies Column.
-				- Checking The StreamingMovies Column.
-				- Checking Missing Value on StreamingMovies Column.
-			- Contract Column.
-				- Checking The Contract Column.
-				- Checking Missing Value on Contract Column.
-			- PaperlessBilling Column.
-				- Checking The PaperlessBilling Column.
-				- Checking Missing Value on PaperlessBilling Column.
-			- PaymentMethod Column.
-				- Checking The PaymentMethod Column.
-				- Checking Missing Value on PaymentMethod Column.
-			- MonthlyCharges Column.
-				- Changing The Data Type on MonthlyCharges Column.
-				- Checking The MonthlyCharges Column.
-				- Checking Missing Value on MonthlyCharges Column.
-			- TotalCharges Column.
-				- Changing The Data Type on TotalCharges Column.
-				- Checking The TotalCharges Column.
-				- Changing The Value on The TotalCharges.
-				- Checking Missing Value on TotalCharges Column.
-			- Churn Column.
-				- Checking The Churn Column.
-				- Checking Missing Value on gender Churn.
-	- Data Exploration
-		- Checking The Number of Customer Who Churned.
-		- Checking The Number of Customers Based on The Gender.
-			- Checking The Number of Gender Who Churn.
-		- Checking The Number of Customers Based on The Senior Citizen Status.
-			- Checking The Number of Customer Who Churn Based on The Senior Citizen Status.
-			- Checking The Number of Gender Based on The Senior Citizen.
-		- Checking The Number of Customers Based on The Partner Status.
-			- Checking The Number of Customer Who Churn Based on The Partner Status.
-			- Checking The Number of Gender Based on The Partner Status.
-		- Checking The Number of Customers Based on The Dependents Status.
-			- Checking The Number of Customer Who Churn Based on The Dependents Status.
-			- Checking The Number of Gender Based on The Dependents Status.
-		- Checking The Number of Customers Based on The Tenure Status.
-			- Checking The Number of Customer Who Churn Based on The Tenure Status.
-			- Checking The Number of Gender Based on The Tenure Status.
-		- Checking The Number of Customers Based on The Phone Service.
-			- Checking The Number of Customer Who Churn Based on The Phone Service.
-			- Checking The Number of Gender Based on The Phone Service.
-		- Checking The Number of Customers Based on The Multiple Lines Status.
-			- Checking The Number of Customer Who Churn Based on The Multiple Lines Service.
-			- Checking The Number of Gender Based on The Multiple Lines Service.
-		- Checking The Number of Customers Based on The Internet Service.
-			- Checking The Number of Customer Who Churn Based on The Internet Service.
-			- Checking The Number of Gender Based on The Internet Service.
-		- Checking The Number of Customers Based on The Online Security Service.
-			- Checking The Number of Customer Who Churn Based on The Online Security Service.
-			- Checking The Number of Gender Based on The Online Security Service.
-		- Checking The Number of Customers Based on The Online Backup Service.
-			- Checking The Number of Customer Who Churn Based on The Online Backup Service.
-			- Checking The Number of Gender Based on The Online Backup Service.
-		- Checking The Number of Customers Based on The Device Protection Service.
-			- Checking The Number of Customer Who Churn Based on The Device Protection Service.
-			- Checking The Number of Gender Based on The Device Protection Service.
-		- Checking The Number of Customers Based on The Tech Support Service.
-			- Checking The Number of Customer Who Churn Based on The Tech Support Service.
-			- Checking The Number of Gender Based on The Tech Support Service.
-		- Checking The Number of Customers Based on The Streaming TV Service.
-			- Checking The Number of Customer Who Churn Based on The Streaming TV Service.
-			- Checking The Number of Gender Based on The Streaming TV Service.
-		- Checking The Number of Customers Based on The Streaming Movies Service.
-			- Checking The Number of Customer Who Churn Based on The Streaming Movies Service.
-			- Checking The Number of Gender Based on The Streaming Movies Service.
-		- Checking The Number of Customers Based on The Contract.
-			- Checking The Number of Customer Who Churn Based on The Contract.
-			- Checking The Number of Gender Based on The Contract.
-		- Checking The Number of Customers Based on The Paperless Billing Status.
-			- Checking The Number of Customer Who Churn Based on The Paperless Billing Status.
-			- Checking The Number of Gender Based on The Paperless Billing Status.
-		- Checking The Number of Customers Based on The Payment Method Status.
-			- Checking The Number of Customer Who Churn Based on The Payment Method Status.
-			- Checking The Number of Gender Based on The Payment Method Status.
-		- Checking The Average of Monthly Charges Based on The Senior Citizen Status.
-		- Checking The Average of Monthly Charges Based on The Gender.
-		- Checking The Average of Total Charges Based on The Senior Citizen Status.
-		- Checking The Average of Total Charges Based on The Gender.
-
-- Analyzing Using Python
-	- Data Profiling
-		- Importing Library.
-		- Importing Data.
-		- Showing The Length of The Data.
-		- Showing The Shape of The Data.
-		- Showing The Information of The Data.
-	- Data Cleansing
-		- Checking The customerID Column.
-			- Renaming The Column's Name.
-			- Displaying The CustomerID Column.
-			- Checking The Number of CustomerID.
-			- Checking The Description of The CustomerID Column.
-			- Checking The Missing Value in The CustomerID Column.
-		- Checking The Gender Column.
-			- Displaying The Gender Column.
-			- Renaming The Column's Name.
-			- Checking The Number of Gender.
-			- Checking The Description of The Gender Column.
-			- Checking The Missing Value in The Gender Column.
-		- Checking The SeniorCitizen Column.
-			- Displaying The SeniorCitizen Column.
-			- Changing The Writing of The Value in The SeniorCitizen Column.
-			- Checking The Number of SeniorCitizen.
-			- Checking The Description of The SeniorCitizen Column.
-			- Checking The Missing Value in The SeniorCitizen Column.
-		- Checking The Partner Column.
-			- Displaying The Partner Column.
-			- Changing The Writing of The Value in The Partner Column.
-			- Checking The Number of Partner.
-			- Checking The Description of The Partner Column.
-			- Checking The Missing Value in The Partner Column.
-		- Checking The Dependents Column.
-			- Displaying The Dependents Column.
-			- Changing The Writing of The Value in The Dependents Column.
-			- Checking The Number of Dependents.
-			- Checking The Description of The Dependents Column.
-			- Checking The Missing Value in The Dependents Column.
-		- Checking The tenure Column.
-			- Displaying The tenure Column.
-			- Renaming The Column's Name.
-			- Checking The Number of Tenure.
-			- Changing The Writing of The Value in The Tenure Column.
-			- Checking The Number of Tenures.
-			- Checking The Description of The Tenures Column.
-			- Checking The Missing Value in The Tenures Column.
-		- Checking The PhoneService Column.
-			- Displaying The PhoneService Column.
-			- Changing The Writing of The Value in The PhoneService Column.
-			- Checking The Number of PhoneService.
-			- Checking The Description of The PhoneService Column.
-			- Checking The Missing Value in The PhoneService Column.
-		- Checking The MultipleLines Column.
-			- Displaying The MultipleLines Column.
-			- Changing The Writing of The Value in The MultipleLines Column.
-			- Checking The Number of MultipleLines.
-			- Checking The Description of The MultipleLines Column.
-			- Checking The Missing Value in The MultipleLines Column.
-		- Checking The InternetService Column.
-			- Displaying The InternetService Column.
-			- Changing The Writing of The Value in The InternetService Column.
-			- Checking The Number of InternetService.
-			- Checking The Description of The InternetService Column.
-			- Checking The Missing Value in The InternetService Column.
-		- Checking The OnlineSecurity Column.
-			- Displaying The OnlineSecurity Column.
-			- Changing The Writing of The Value in The OnlineSecurity Column.
-			- Checking The Number of OnlineSecurity.
-			- Checking The Description of The OnlineSecurity Column.
-			- Checking The Missing Value in The OnlineSecurity Column.
-		- Checking The OnlineBackup Column.
-			- Displaying The OnlineBackup Column.
-			- Changing The Writing of The Value in The OnlineBackup Column.
-			- Checking The Number of OnlineBackup.
-			- Checking The Description of The OnlineBackup Column.
-			- Checking The Missing Value in The OnlineBackup Column.
-		- Checking The DeviceProtection Column.
-			- Displaying The DeviceProtection Column.
-			- Changing The Writing of The Value in The DeviceProtection Column.
-			- Checking The Number of DeviceProtection.
-			- Checking The Description of The DeviceProtection Column.
-			- Checking The Missing Value in The DeviceProtection Column.
-		- Checking The TechSupport Column.
-			- Displaying The TechSupport Column.
-			- Changing The Writing of The Value in The TechSupport Column.
-			- Checking The Number of TechSupport.
-			- Checking The Description of The TechSupport Column.
-			- Checking The Missing Value in The TechSupport Column.
-		- Checking The StreamingTV Column.
-			- Displaying The StreamingTV Column.
-			- Changing The Writing of The Value in The StreamingTV Column.
-			- Checking The Number of StreamingTV.
-			- Checking The Description of The StreamingTV Column.
-			- Checking The Missing Value in The StreamingTV Column.
-		- Checking The StreamingMovies Column.
-			- Displaying The StreamingMovies Column.
-			- Changing The Writing of The Value in The StreamingMovies Column.
-			- Checking The Number of StreamingMovies.
-			- Checking The Description of The StreamingMovies Column.
-			- Checking The Missing Value in The StreamingMovies Column.
-		- Checking The Contract Column.
-			- Displaying The Contract Column.
-			- Changing The Writing of The Value in The Contract Column.
-			- Checking The Number of Contract.
-			- Checking The Description of The Contract Column.
-			- Checking The Missing Value in The Contract Column.
-		- Checking The PaperlessBilling Column.
-			- Displaying The PaperlessBilling Column.
-			- Changing The Writing of The Value in The PaperlessBilling Column.
-			- Checking The Number of PaperlessBilling.
-			- Checking The Description of The PaperlessBilling Column.
-			- Checking The Missing Value in The PaperlessBilling Column.
-		- Checking The PaymentMethod Column.
-			- Displaying The PaymentMethod Column.
-			- Changing The Writing of The Value in The PaymentMethod Column.
-			- Checking The Number of PaymentMethod.
-			- Checking The Description of The PaymentMethod Column.
-			- Checking The Missing Value in The PaymentMethod Column.
-		- Checking The MonthlyCharges Column.
-			- Displaying The MonthlyCharges Column.
-			- Checking The Description of The MonthlyCharges Column.
-			- Checking The Missing Value in The MonthlyCharges Column.
-		- Checking The TotalCharges Column.
-			- Displaying The Data.
-			- Creating A New Column Called TotalCharge.
-			- Removing Data That Has 0 Value in The TotalCharge Column.
-			- Checking The Description of The TotalCharge Column.
-		- Checking The Churn Column.
-			- Displaying The Churn Column.
-			- Changing The Writing of The Value in The Churn Column.
-			- Checking The Number of Churn.
-			- Checking The Description of The Churn Column.
-			- Checking The Missing Value in The Churn Column.
-	- Data Exploration
-		- Checking The Number of Customer Who Churned.
-		- Checking The Number of Customers Based on The Gender.
-			- Checking The Number of Gender Who Churn.
-		- Checking The Number of Customers Based on The Senior Citizen Status.
-			- Checking The Number of Customer Who Churn Based on The Senior Citizen Status.
-			- Checking The Number of Gender Based on The Senior Citizen.
-		- Checking The Number of Customers Based on The Partner Status.
-			- Checking The Number of Customer Who Churn Based on The Partner Status.
-			- Checking The Number of Gender Based on The Partner Status.
-		- Checking The Number of Customers Based on The Dependents Status.
-			- Checking The Number of Customer Who Churn Based on The Dependents Status.
-			- Checking The Number of Gender Based on The Dependents Status.
-		- Checking The Number of Customers Based on The Tenure Status.
-			- Checking The Number of Customer Who Churn Based on The Tenure Status.
-			- Checking The Number of Gender Based on The Tenure Status.
-		- Checking The Number of Customers Based on The Phone Service.
-			- Checking The Number of Customer Who Churn Based on The Phone Service.
-			- Checking The Number of Gender Based on The Phone Service.
-		- Checking The Number of Customers Based on The Multiple Lines Status.
-			- Checking The Number of Customer Who Churn Based on The Multiple Lines Service.
-			- Checking The Number of Gender Based on The Multiple Lines Service.
-		- Checking The Number of Customers Based on The Internet Service.
-			- Checking The Number of Customer Who Churn Based on The Internet Service.
-			- Checking The Number of Gender Based on The Internet Service.
-		- Checking The Number of Customers Based on The Online Security Service.
-			- Checking The Number of Customer Who Churn Based on The Online Security Service.
-			- Checking The Number of Gender Based on The Online Security Service.
-		- Checking The Number of Customers Based on The Online Backup Service.
-			- Checking The Number of Customer Who Churn Based on The Online Backup Service.
-			- Checking The Number of Gender Based on The Online Backup Service.
-		- Checking The Number of Customers Based on The Device Protection Service.
-			- Checking The Number of Customer Who Churn Based on The Device Protection Service.
-			- Checking The Number of Gender Based on The Device Protection Service.
-		- Checking The Number of Customers Based on The Tech Support Service.
-			- Checking The Number of Customer Who Churn Based on The Tech Support Service.
-			- Checking The Number of Gender Based on The Tech Support Service.
-		- Checking The Number of Customers Based on The Streaming TV Service.
-			- Checking The Number of Customer Who Churn Based on The Streaming TV Service.
-			- Checking The Number of Gender Based on The Streaming TV Service.
-		- Checking The Number of Customers Based on The Streaming Movies Service.
-			- Checking The Number of Customer Who Churn Based on The Streaming Movies Service.
-			- Checking The Number of Gender Based on The Streaming Movies Service.
-		- Checking The Number of Customers Based on The Contract.
-			- Checking The Number of Customer Who Churn Based on The Contract.
-			- Checking The Number of Gender Based on The Contract.
-		- Checking The Number of Customers Based on The Paperless Billing Status.
-			- Checking The Number of Customer Who Churn Based on The Paperless Billing Status.
-			- Checking The Number of Gender Based on The Paperless Billing Status.
-		- Checking The Number of Customers Based on The Payment Method Status.
-			- Checking The Number of Customer Who Churn Based on The Payment Method Status.
-			- Checking The Number of Gender Based on The Payment Method Status.
-		- Checking The Monthly Charges Column.
-			- Checking The Average of Monthly Charges Based on The Senior Citizen Status.
-			- Checking The Average of Monthly Charges Based on The Gender.
-		- Checking The Total Charges Column.
-			- Checking The Average of Total Charges Based on The Senior Citizen Status.
-			- Checking The Average of Total Charges Based on The Gender.
-		- Checking The Outliers.
-
-## Data Source
-Source: https://www.kaggle.com/blastchar/telco-customer-churn
+## Exploratory Data Analysis
+1. How many customers have churned?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned.png)
+   
+2. How many customers of each gender have churned?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20of%20each%20gender%20have%20churned.png)
+   
+3. How many customers have churned based on senior citizen status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20senior%20citizen%20status.png)
+   
+4. How many customers have churned based on partnership status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20partnership%20status.png)
+   
+5. How many customers have churned based on dependent status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20dependent%20status.png)
+   
+6. How many customers have churned based on tenure?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20tenure.png)
+   
+7. How many customers have churned based on phone service status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20phone%20service%20status.png)
+   
+8. How many customers have churned based on multiple lines status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20multiple%20lines%20status.png)
+   
+9. How many customers have churned based on internet service status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20internet%20service%20status.png)
+   
+10. How many customers have churned based on online security status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20online%20security%20status.png)
+   
+11. How many customers have churned based on online backup status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20online%20backup%20status.png)
+   
+12. How many customers have churned based on device protection status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20device%20protection%20status.png)
+   
+13. How many customers have churned based on tech support status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20tech%20support%20status.png)
+   
+14. How many customers have churned based on streaming TV status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20streaming%20TV%20status.png)
+   
+15. How many customers have churned based on streaming movies status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20streaming%20movies%20status.png)
+   
+16. How many customers have churned based on contract type?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20contract%20type.png)
+   
+17. How many customers have churned based on paperless billing status?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20paperless%20billing%20status.png)
+   
+18. How many customers have churned based on payment method?
+   ![image](https://raw.githubusercontent.com/luthfifathurrahman/Telco-Customer-Churn-Potfolio-Project/main/images/How%20many%20customers%20have%20churned%20based%20on%20payment%20method.png)
+   
